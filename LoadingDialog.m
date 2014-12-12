@@ -20,7 +20,7 @@ function LoadingDialog(hObject, EventData)
     axes_width = 0.4;
     axes_height = 0.3;
     row1_pos = 0.90 - axes_height;
-    row2_pos = 0.59 - axes_height;
+    row2_pos = 0.4 - axes_height;
     
     no_box_height = 0.03;
     no_box_x_pos = 0.2;
@@ -30,7 +30,9 @@ function LoadingDialog(hObject, EventData)
     
     
     dlg_user_data.time_cluster_axes = axes('Parent',dlg_user_data.window_h,'Position',[col1_pos row1_pos axes_width axes_height]);  
-    dlg_user_data.cal_cluster_axes = axes('Parent',dlg_user_data.window_h,'Position',[col2_pos row1_pos axes_width axes_height]);  
+    dlg_user_data.cal_cluster_axes = axes('Parent',dlg_user_data.window_h,'Position',[col2_pos row1_pos axes_width axes_height]); 
+    dlg_user_data.combined_cluster_axes = axes('Parent',dlg_user_data.window_h,'Position',[col2_pos row2_pos axes_width axes_height]); 
+    
     
     
     % sliders
@@ -109,7 +111,7 @@ function dlg_user_data=displayData(dlg_user_data)
     
     
     
-    dlg_user_data.report = create_report_table(user_data, dlg_user_data.window_h, [0 0 0.5 0.4]);
+    dlg_user_data.report = create_report_table(user_data, dlg_user_data.window_h, [0 0 0.45 0.4]);
     
     
     ColorSet = varycolor(length(user_data.run_info.runs));
