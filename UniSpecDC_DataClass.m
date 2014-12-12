@@ -26,7 +26,7 @@ classdef UniSpecDC_DataClass < handle
         ref_index; % indexing the spectra that are references
         DC_index; % dark current index per channel (a and b)
         
-        DC_stdev_threshold = 40; % used for DC detection at 1ms integration time
+        DC_stdev_threshold = 10; % used for DC detection at 1ms integration time
         
         run_no; % tram run number
         
