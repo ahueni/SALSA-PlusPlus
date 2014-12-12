@@ -114,12 +114,12 @@ function dlg_user_data=displayData(dlg_user_data)
     dlg_user_data.report = create_report_table(user_data, dlg_user_data.window_h, [0 0 0.45 0.4]);
     
     
-    ColorSet = varycolor(length(user_data.run_info.runs));
+    ColorSet = varycolor(length(user_data.tgb_run_info.runs));
 
     hold(dlg_user_data.time_cluster_axes)
-    for i=1:length(user_data.run_info.runs)
+    for i=1:length(user_data.tgb_run_info.runs)
         
-        plot(dlg_user_data.time_cluster_axes, user_data.run_info.matlab_times(i).time, user_data.run_info.runs(i).start:1:user_data.run_info.runs(i).end, '*', 'Color', ColorSet(i,:))
+        plot(dlg_user_data.time_cluster_axes, user_data.tgb_run_info.matlab_times(i).time, user_data.tgb_run_info.runs(i).start:1:user_data.tgb_run_info.runs(i).end, '*', 'Color', ColorSet(i,:))
         
     end
     
@@ -142,6 +142,11 @@ function dlg_user_data=displayData(dlg_user_data)
     ylabel(dlg_user_data.cal_cluster_axes,'Internal Calibration IDs');   
     title(dlg_user_data.cal_cluster_axes,'Calibration Clustering');  
     
+    
+    hold(dlg_user_data.combined_cluster_axes)
+    
+    title(dlg_user_data.combined_cluster_axes,'Combined Clustering');  
+     
     dlg_user_data.parent_user_data = user_data;
 
 end

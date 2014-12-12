@@ -115,9 +115,9 @@ function user_data = determine_number_of_runs(user_data, time_gap_minutes, do_pl
     user_data.run_info.runs = runs;
     user_data.cal_block_index = cal_block_index;
     
-    user_data.run_info.tgb_times = tgb_times;
-    user_data.run_info.tgb_matlab_times = tgb_matlab_times;
-    user_data.run_info.tgb_runs = tgb_runs;    
+    user_data.tgb_run_info.times = tgb_times;
+    user_data.tgb_run_info.matlab_times = tgb_matlab_times;
+    user_data.tgb_run_info.runs = tgb_runs;    
    
     
 
