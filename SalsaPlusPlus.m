@@ -246,18 +246,6 @@ function DataBrowserAction(hObject, EventData)
         
     SelectDataFromDB(user_data);
 
-    
-    
-    % clear plots
-    cla(user_data.raw_A_axes)
-    cla(user_data.raw_B_axes)
-    cla(user_data.A_time_axes)
-    cla(user_data.B_time_axes)
-    cla(user_data.TGT_axes)
-    cla(user_data.REF_axes)
-    cla(user_data.wvl_int_R_axes)
-
-    
 end
 
 

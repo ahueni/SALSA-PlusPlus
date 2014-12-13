@@ -97,10 +97,8 @@ function FlagIdentifiedDCSpectra(hObject, EventData)
     close(fh);
     
     % initiate reselection data
-    user_data = SelectDataFromDB(user_data);
+    SelectDataFromDB(main_user_data);
     
-    % initate re-load and processing
-    LoadDataFromDB(user_data);
 
 end
 

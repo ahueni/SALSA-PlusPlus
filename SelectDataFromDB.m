@@ -6,6 +6,15 @@ function user_data = SelectDataFromDB(user_data)
 
     msgbox_h = msgbox('Selecting data from DB');
     
+    % clear plots
+    cla(user_data.raw_A_axes)
+    cla(user_data.raw_B_axes)
+    cla(user_data.A_time_axes)
+    cla(user_data.B_time_axes)
+    cla(user_data.TGT_axes)
+    cla(user_data.REF_axes)
+    cla(user_data.wvl_int_R_axes)    
+    
     % get ids of all spectra
     ids = user_data.sdb.get_selected_spectrum_ids();  
     
