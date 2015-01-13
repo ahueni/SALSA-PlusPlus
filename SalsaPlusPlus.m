@@ -85,6 +85,7 @@ function SalsaPlusPlus()
     uimenu(f,'Label','Time Check','Callback',@TimeCheck);
     %uimenu(f,'Label','Time Clustering','Callback',@TimeClustering);
     uimenu(f,'Label','Browse & Flag All Spectra','Callback',@BrowseAndFlagAllSpectra);
+    uimenu(f,'Label','Show Cosine-REF Panel X-Cal Factors','Callback',@ShowCosinePanelXCalFactors, 'Separator','on');
     
     
     
@@ -463,6 +464,43 @@ function BrowseAndFlagAllSpectra(hObject, EventData)
     BrowseAndFlag(o,0);
 
 end
+
+function ShowCosinePanelXCalFactors(hObject, EventData)
+
+
+    % get user data
+    fh = ancestor(hObject, 'figure');    
+    user_data = get(fh, 'UserData');
+    
+    xcal = CosinePanelXCalFactorsClass(user_data);
+    
+%     
+%     figure('Name', 'SALSA++ - Cosine - Panel XCal Factors');
+%     
+%     no_of_runs = length(user_data.runs);
+%     
+%     margin = 0.05;
+%     plot_height_dist = 0.97 / no_of_runs;
+%     plot_height = plot_height_dist - margin;
+%     
+%     %
+%     for i=1:no_of_runs
+%         
+%         
+%         h=subplot(no_of_runs,1,i);
+%         set(h, 'Position', [0.05, 1-(plot_height_dist*i), 0.52, plot_height])
+%     
+%         user_data.runs(i).plotCosinePanelXCalFactors(h);
+%                 
+%     
+%     end    
+%     
+%     
+    
+
+end
+
+
 
 
 
