@@ -167,11 +167,11 @@ classdef ModifyDataClass < handle
             hold(this.A_time_axes);
             hold(this.B_time_axes);
             
-            datetick(this.A_time_axes, 'x','HH:mm');
+            datetick(this.A_time_axes, 'x','HH:MM');
             xlabel(this.A_time_axes, 'Time');
             ylabel(this.A_time_axes, 'DN');
             
-            datetick(this.B_time_axes, 'x','HH:mm');
+            datetick(this.B_time_axes, 'x','HH:MM');
             xlabel(this.B_time_axes, 'Time');
             ylabel(this.B_time_axes, 'DN');
             

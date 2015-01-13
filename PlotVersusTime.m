@@ -30,11 +30,11 @@ function PlotVersusTime(hObject, EventData)
         plot(user_data.A_time_axes, all_times, all_data_a);
         plot(user_data.B_time_axes, all_times, all_data_b);
         
-        datetick(user_data.A_time_axes, 'x','HH:mm:ss')
+        datetick(user_data.A_time_axes, 'x','HH:MM:ss')
         xlabel(user_data.A_time_axes, 'Time');
         ylabel(user_data.A_time_axes, 'DN');
         
-        datetick(user_data.B_time_axes, 'x','HH:mm:ss')
+        datetick(user_data.B_time_axes, 'x','HH:MM:ss')
         xlabel(user_data.B_time_axes, 'Time');
         ylabel(user_data.B_time_axes, 'DN');        
 
