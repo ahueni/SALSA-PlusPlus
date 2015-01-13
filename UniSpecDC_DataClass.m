@@ -12,6 +12,9 @@ classdef UniSpecDC_DataClass < handle
         wvl_cal; % wavelength calibrated data
         wvl_int; % 1nm interpolated data
         
+        cosine_panel_factors; % factors for cross-calibration between cosine receptor and reference panel readings
+        cosine_panel_factors_avg; % average factors for cross-calibration between cosine receptor and reference panel readings
+        
         ids_per_channel; % spectrum ids per channel
         original_ids_per_channel; % spectrum ids per channel but for the original ids
         
@@ -30,6 +33,8 @@ classdef UniSpecDC_DataClass < handle
         
         run_no; % tram run number
         
+        R_exists; % boolean indicating if R was calculated
+        
     end
     
     
@@ -41,6 +46,7 @@ classdef UniSpecDC_DataClass < handle
             this.spectrum_ids = spectrum_ids; 
             this.original_spectrum_ids = spectrum_ids;
             this.colour = colour;
+            this.R_exists = false;
             
             this.split_into_channels()
             
@@ -285,8 +291,12 @@ classdef UniSpecDC_DataClass < handle
             
             irrad_norm = true;
             
+            start_band = 100;
+            end_band = 500;
+            
+            
             if (irrad_norm)
-                tgt_irr_norm = this.wvl_int.gnd.vectors ./ this.wvl_int.sky.vectors;
+                tgt_irr_norm = this.wvl_int.gnd.vectors(:, start_band:end_band) ./ this.wvl_int.sky.vectors(:, start_band:end_band, :);
                 
                 tgt_irr_norm(isinf(tgt_irr_norm)) = 0; % set infinity values to zero (happens when the irradiance channel has zeros, which is actually an error in the data itself)
                 tgt_irr_norm(isnan(tgt_irr_norm)) = 0; % same for NaN
@@ -376,6 +386,8 @@ classdef UniSpecDC_DataClass < handle
         function this=calcReflectances(this)
             
             if this.wvl_int.tgt.ids.size() >= 1 && this.wvl_int.ref.ids.size() >= 1
+                
+                this.R_exists = true;
 
                 % get sky spectra based on the target index / ref index (equivalent to the sky
                 % spectrum matching the target or reference respectively)
@@ -385,12 +397,12 @@ classdef UniSpecDC_DataClass < handle
                 % calculate the average of the panel factor, the used entries depend
                 % on the selected reference panel settings
                 % The panel factors are a cross-calibration between upward and downward looking sensor, calibrating to the white reference panel 
-                panel_factors = this.wvl_int.ref.vectors(this.wvl_int.ref.selected_index,:) ./ sky_ref(this.wvl_int.ref.selected_index,:);
+                this.cosine_panel_factors = this.wvl_int.ref.vectors(this.wvl_int.ref.selected_index,:) ./ sky_ref(this.wvl_int.ref.selected_index,:);
 
-                panel_avg = mean(panel_factors, 1);
+                this.cosine_panel_factors_avg = mean(this.cosine_panel_factors, 1);
 
                 % replicate average to allow matrix operations
-                panel_avg_matrix = repmat(panel_avg, size(this.wvl_int.tgt.vectors, 1), 1);    
+                panel_avg_matrix = repmat(this.cosine_panel_factors_avg, size(this.wvl_int.tgt.vectors, 1), 1);    
 
                 this.wvl_int.R.vectors = this.wvl_int.tgt.vectors ./ (sky_tgt .* panel_avg_matrix);
                 
@@ -402,6 +414,7 @@ classdef UniSpecDC_DataClass < handle
             else
                 
                 this.wvl_int.R.vectors = [];
+                this.R_exists = false;
                 
             end
             
@@ -509,8 +522,12 @@ classdef UniSpecDC_DataClass < handle
         end
         
         function  plotHCRFs(this, axis_h)
+            
+            if this.R_exists
            
-            plotTGTorREF(this, axis_h, this.wvl_int.R);                         
+                plotTGTorREF(this, axis_h, this.wvl_int.R);           
+            
+            end
         
         end      
         
@@ -527,6 +544,23 @@ classdef UniSpecDC_DataClass < handle
 
             
         end
+        
+        function plotCosinePanelXCalFactors(this, axis_h)
+            
+            plot(axis_h, this.wvl_int.ref.wvl, this.cosine_panel_factors);
+            title(axis_h, ['Run No ' num2str(this.run_no)]);
+            xlabel(axis_h, 'Wavelength [nm]');
+            
+        end
+        
+        
+        function  plotCosinePanelXCalFactors_versus_time(this, axis_h, band, linestyle, colour)
+                        
+            plot(axis_h, this.raw.a.capture_times_in_matlab_datenum(this.ref_index), this.cosine_panel_factors(:,band), linestyle, 'Color', colour);           
+            
+        end
+        
+        
         
         
     end
